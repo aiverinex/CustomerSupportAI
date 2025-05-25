@@ -59,3 +59,43 @@ The system will prompt you to use a sample query or enter your own customer supp
 
 ## 🏗️ Project Structure
 
+```
+customer-support-crew/
+├── agents/
+│   ├── faq_agent.py          # FAQ response agent
+│   ├── escalation_agent.py   # Escalation decision agent
+│   └── logging_agent.py      # Interaction logging agent
+├── tasks/
+│   └── task.py              # Task definitions for the workflow
+├── crew/
+│   └── crew.py              # Main crew orchestration
+├── config/
+│   └── config.yaml          # Configuration settings
+├── sample_data/
+│   └── customer_query.txt   # Sample customer queries for testing
+├── main.py                  # Main entry point
+├── README.md               # Project documentation
+└── pyproject.toml          # Project dependencies
+```
+
+## 🔧 Features
+
+- **AI-Powered Responses**: Uses OpenAI's advanced language models for intelligent customer support
+- **Automatic Escalation**: Smart detection of when human intervention is needed
+- **Comprehensive Logging**: Detailed interaction tracking with analytics
+- **CrewAI Compatible**: Built following CrewAI Marketplace standards
+- **Production Ready**: Scalable architecture for real customer support workflows
+
+## 📊 Agent Workflow
+
+1. **Customer Query Input** → FAQ Agent analyzes and responds
+2. **FAQ Response** → Escalation Agent evaluates need for human support
+3. **Complete Interaction** → Logging Agent records everything for analysis
+
+## 🤝 Contributing
+
+This project follows the CrewAI Marketplace Template structure. For contributions or marketplace submission, ensure all agents maintain the established interfaces and follow CrewAI best practices.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
