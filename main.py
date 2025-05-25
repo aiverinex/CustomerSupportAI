@@ -14,8 +14,8 @@ import time
 from datetime import datetime
 from dotenv import load_dotenv
 
-# Import CrewAI compatible customer support crew
-from crew.simple_crew import create_customer_support_crew
+# Import CrewAI customer support crew
+from crew.crew import create_customer_support_crew
 
 def load_environment():
     """

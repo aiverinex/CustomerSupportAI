@@ -4,7 +4,7 @@ from crewai import Agent
 from openai import OpenAI
 from typing import Dict, Any
 
-def process_faq_query(question: str) -> Dict[str, Any]:
+def process_faq_query(question: str) -> str:
     """
     Process customer questions using either mock responses or OpenAI API
     """
