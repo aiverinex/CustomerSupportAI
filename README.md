@@ -1,6 +1,6 @@
 # Customer Support Agent Crew
 
-A CrewAI-compatible automated customer support system that handles FAQ responses, escalation decisions, and interaction logging. This project follows the CrewAI Marketplace Template structure and is ready for submission to the [CrewAI Marketplace](https://marketplace.crewai.com).
+A CrewAI-compatible automated customer support system that handles FAQ responses, escalation decisions, and interaction logging. This project follows the CrewAI Marketplace Template structure.
 
 ## 🎯 Project Overview
 
