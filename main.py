@@ -12,8 +12,15 @@ import os
 import sys
 import time
 from datetime import datetime
-from crew.crew import create_customer_support_crew
 from dotenv import load_dotenv
+
+# Import working customer support functions
+from test_support_system import (
+    process_faq_query,
+    process_escalation_decision, 
+    log_interaction,
+    run_customer_support_workflow
+)
 
 def load_environment():
     """
@@ -83,9 +90,6 @@ def run_interactive_mode():
     """
     print("\n🚀 Starting Customer Support Agent Crew...")
     
-    # Initialize the crew
-    crew = create_customer_support_crew()
-    
     while True:
         try:
             # Get customer input
@@ -95,9 +99,9 @@ def run_interactive_mode():
                 print("❌ No query provided. Exiting.")
                 break
             
-            # Process the query
+            # Process the query using working functions
             print(f"\n🔄 Processing query for user: {user_id}")
-            result = crew.process_customer_query(customer_query, user_id)
+            result = run_customer_support_workflow(customer_query)
             
             # Display results
             if result.get("success"):
