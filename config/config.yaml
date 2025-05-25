@@ -1,0 +1,112 @@
+# Customer Support Agent Crew Configuration
+# Configuration file for CrewAI marketplace submission
+
+crew_info:
+  name: "Customer Support Agent Crew"
+  description: "Automated customer support system with FAQ, escalation, and logging capabilities"
+  version: "1.0.0"
+  author: "Customer Support Team"
+  marketplace_compatible: true
+
+# Agent Configuration
+agents:
+  faq_agent:
+    enabled: true
+    model_fallback: "mock"
+    confidence_threshold: 0.6
+    max_response_length: 500
+    
+  escalation_agent:
+    enabled: true
+    escalation_threshold: 0.6
+    priority_levels: ["low", "normal", "high", "urgent"]
+    default_priority: "normal"
+    
+  logging_agent:
+    enabled: true
+    log_to_file: true
+    log_to_console: true
+    max_log_entries: 1000
+    analytics_enabled: true
+
+# FAQ Knowledge Base Categories
+faq_categories:
+  order_status:
+    keywords: ["order", "tracking", "status", "delivery", "shipped"]
+    confidence_boost: 0.1
+    
+  returns:
+    keywords: ["return", "refund", "exchange", "defective", "wrong"]
+    confidence_boost: 0.15
+    
+  shipping:
+    keywords: ["shipping", "delivery", "when will", "how long", "express"]
+    confidence_boost: 0.1
+    
+  account:
+    keywords: ["account", "login", "password", "email", "profile"]
+    confidence_boost: 0.05
+    
+  billing:
+    keywords: ["payment", "billing", "charge", "card", "invoice"]
+    confidence_boost: 0.1
+
+# Escalation Rules
+escalation_rules:
+  low_confidence:
+    threshold: 0.6
+    action: "escalate"
+    priority: "normal"
+    
+  complex_keywords:
+    triggers: ["legal", "lawsuit", "manager", "complaint", "fraud"]
+    action: "escalate"
+    priority: "high"
+    
+  emotional_indicators:
+    triggers: ["angry", "frustrated", "terrible", "worst", "hate"]
+    action: "escalate"
+    priority: "high"
+    
+  emergency_keywords:
+    triggers: ["emergency", "urgent", "asap", "immediately"]
+    action: "escalate"
+    priority: "urgent"
+
+# Logging Configuration
+logging:
+  file_path: "logs/customer_interactions.json"
+  console_output: true
+  include_metadata: true
+  retention_days: 90
+  
+  analytics:
+    track_resolution_time: true
+    track_escalation_rate: true
+    track_category_distribution: true
+    track_confidence_scores: true
+
+# API Configuration
+api:
+  openai:
+    model: "gpt-4o"  # Latest OpenAI model as of May 13, 2024
+    max_tokens: 500
+    temperature: 0.7
+    
+  mock_mode:
+    enabled_by_default: true
+    fallback_on_api_error: true
+
+# CrewAI Workflow Settings
+workflow:
+  process_type: "sequential"
+  verbose_output: true
+  allow_delegation: false
+  max_execution_time: 30  # seconds
+  
+# Performance Monitoring
+monitoring:
+  track_response_times: true
+  alert_on_high_escalation_rate: true
+  escalation_rate_threshold: 0.3  # 30%
+  performance_logging: true
