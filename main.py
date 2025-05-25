@@ -14,13 +14,8 @@ import time
 from datetime import datetime
 from dotenv import load_dotenv
 
-# Import working customer support functions
-from test_support_system import (
-    process_faq_query,
-    process_escalation_decision, 
-    log_interaction,
-    run_customer_support_workflow
-)
+# Import CrewAI compatible customer support crew
+from crew.simple_crew import create_customer_support_crew
 
 def load_environment():
     """
@@ -99,9 +94,10 @@ def run_interactive_mode():
                 print("❌ No query provided. Exiting.")
                 break
             
-            # Process the query using working functions
+            # Process the query
             print(f"\n🔄 Processing query for user: {user_id}")
-            result = run_customer_support_workflow(customer_query)
+            crew = create_customer_support_crew()
+            result = crew.process_customer_query(customer_query, user_id)
             
             # Display results
             if result.get("success"):
