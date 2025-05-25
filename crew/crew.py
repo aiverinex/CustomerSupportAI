@@ -5,7 +5,7 @@ from crewai import Crew, Process
 from agents.faq_agent import create_faq_agent
 from agents.escalation_agent import create_escalation_agent
 from agents.logging_agent import create_logging_agent
-from tasks.task import create_customer_support_workflow_task
+from tasks.task import create_faq_task, create_escalation_task, create_logging_task
 from typing import Dict, Any, Optional
 
 class CustomerSupportCrew:
@@ -48,13 +48,15 @@ class CustomerSupportCrew:
             print("=" * 60)
             
             # Create the workflow tasks
-            tasks = create_customer_support_workflow_task(
-                self.faq_agent,
-                self.escalation_agent, 
-                self.logging_agent,
-                customer_query,
-                user_id
-            )
+            faq_task = create_faq_task(self.faq_agent, customer_query)
+            escalation_task = create_escalation_task(self.escalation_agent, "{faq_response}", customer_query)
+            logging_task = create_logging_task(self.logging_agent, customer_query, "{faq_response}", "{escalation_decision}")
+            
+            # Set task dependencies
+            escalation_task.context = [faq_task]
+            logging_task.context = [faq_task, escalation_task]
+            
+            tasks = [faq_task, escalation_task, logging_task]
             
             # Execute the crew workflow
             self.crew.tasks = tasks

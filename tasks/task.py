@@ -11,17 +11,15 @@ def create_faq_task(agent, customer_query: str) -> Task:
         
         Customer Query: {customer_query}
         
-        Your task is to:
-        1. Analyze the customer's question
-        2. Provide an accurate and helpful response based on FAQ knowledge
-        3. Assign a confidence score to your response (0-1)
-        4. Categorize the query type
+        Analyze the customer's question and provide a response in JSON format with:
+        - answer: A clear, helpful response to the customer's question
+        - confidence: Your confidence level (0-1) in this response
+        - category: The type of question (order_status, returns, shipping, account, billing, or unknown)
         
-        Return your response in a structured format that includes the answer, 
-        confidence score, and category.
+        Be helpful and professional in your response.
         """,
         agent=agent,
-        expected_output="Structured response with answer, confidence score, and category"
+        expected_output="JSON response with answer, confidence score, and category"
     )
 
 def create_escalation_task(agent, faq_response: str, customer_query: str) -> Task:
@@ -35,25 +33,21 @@ def create_escalation_task(agent, faq_response: str, customer_query: str) -> Tas
         Customer Query: {customer_query}
         FAQ Response: {faq_response}
         
-        Your task is to:
-        1. Evaluate the quality and completeness of the FAQ response
-        2. Assess the complexity and emotional tone of the customer query
-        3. Determine if human intervention is required
-        4. If escalation is needed, specify the reason and priority level
-        5. Suggest the appropriate type of human agent
+        Determine if this interaction should be escalated to a human agent and provide your analysis in JSON format with:
+        - escalate: true or false
+        - reason: explanation for your decision
+        - priority: "low", "normal", "high", or "urgent"
+        - confidence_score: the FAQ confidence score from the response
+        - category: the FAQ category from the response
+        - human_agent_suggestion: "general_support", "technical", "billing", or "manager"
         
-        Consider factors like:
-        - Response confidence level
-        - Query complexity
-        - Emotional indicators
-        - Keywords suggesting urgency or legal issues
-        - Whether the FAQ response adequately addresses the customer's concern
+        Consider response confidence, emotional tone, complexity, and urgency indicators.
         """,
         agent=agent,
-        expected_output="Escalation decision with reasoning, priority, and agent type suggestion"
+        expected_output="JSON escalation decision with reasoning, priority, and agent suggestion"
     )
 
-def create_logging_task(agent, interaction_data: Dict[str, Any]) -> Task:
+def create_logging_task(agent, customer_query: str, faq_response: str, escalation_decision: str) -> Task:
     """
     Create task for Logging Agent to record the interaction
     """
@@ -61,21 +55,21 @@ def create_logging_task(agent, interaction_data: Dict[str, Any]) -> Task:
         description=f"""
         Log the complete customer service interaction for tracking and analysis:
         
-        Interaction Data: {interaction_data}
+        Customer Query: {customer_query}
+        FAQ Response: {faq_response}
+        Escalation Decision: {escalation_decision}
         
-        Your task is to:
-        1. Create a comprehensive log entry with unique ID and timestamp
-        2. Store all relevant interaction details
-        3. Determine resolution status
-        4. Generate analytics summary
-        5. Save to the logging system
-        6. Provide confirmation of successful logging
+        Create a comprehensive log entry in JSON format with:
+        - logged: true or false
+        - interaction_id: unique identifier with timestamp
+        - timestamp: current timestamp in ISO format
+        - analytics: summary of key metrics (escalated, confidence_score, category, etc.)
+        - log_location: where the data was stored (e.g., "logs/customer_interactions.json")
         
-        Ensure all data is properly structured for future analysis and reporting.
-        Include metadata about processing, agent versions, and system configuration.
+        Generate analytics and provide confirmation of successful logging.
         """,
         agent=agent,
-        expected_output="Confirmation of successful logging with interaction ID and analytics summary"
+        expected_output="JSON confirmation of successful logging with interaction ID and analytics"
     )
 
 def create_customer_support_workflow_task(faq_agent, escalation_agent, logging_agent, customer_query: str, user_id: str = "anonymous") -> list:
