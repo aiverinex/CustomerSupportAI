@@ -2,10 +2,9 @@ import os
 import json
 import datetime
 from crewai import Agent
-from crewai_tools import BaseTool
 from typing import Dict, Any
 
-class LoggingTool(BaseTool):
+def log_customer_interaction(interaction_data: Dict[str, Any]) -> Dict[str, Any]:
     name: str = "Customer Interaction Logger"
     description: str = "Logs all customer interactions, responses, and escalation decisions to tracking system"
     
