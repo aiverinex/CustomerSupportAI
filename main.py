@@ -28,14 +28,14 @@ def load_environment():
         print("ℹ️  No .env file found, using system environment variables")
     
     # Display current configuration
-    mock_mode = os.getenv("MOCK_MODE", "true").lower() == "true"
     has_openai_key = bool(os.getenv("OPENAI_API_KEY"))
+    mock_mode = os.getenv("MOCK_MODE", "false" if has_openai_key else "true").lower() == "true"
     
     print(f"🔧 Configuration:")
-    print(f"   Mock Mode: {'Enabled' if mock_mode else 'Disabled'}")
+    print(f"   AI Mode: {'Disabled (Mock Mode)' if mock_mode else 'Enabled (OpenAI)'}")
     print(f"   OpenAI API: {'Available' if has_openai_key else 'Not configured'}")
-    if mock_mode:
-        print("   ℹ️  Running in mock mode - no API calls will be made")
+    if not mock_mode and has_openai_key:
+        print("   🤖 Running with AI-powered responses")
 
 def load_sample_query():
     """
